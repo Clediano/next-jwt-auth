@@ -1,18 +1,19 @@
+import { Can } from "@/components/Can";
 import { AuthContext } from "@/context/AuthContext";
-import { useCan } from "@/hooks/useCan";
 import { withSSRAuth } from "@/utils/withSSRAuth";
 import { GetServerSidePropsContext } from "next";
 import { useContext } from "react";
 
 export default function Dashboard() {
-  const { user } = useContext(AuthContext);
-
-  const userCanSeeMetrics = useCan({ permissions: ["metrics.list"] });
+  const { user, signOut } = useContext(AuthContext);
 
   return (
     <>
       <h1>{user?.email}</h1>
-      {userCanSeeMetrics && <h1>Métricas</h1>}
+      <button onClick={() => signOut()}>Logout</button>
+      <Can permissions={["metrics.list"]}>
+        <h1>Métricas</h1>
+      </Can>
     </>
   );
 }
