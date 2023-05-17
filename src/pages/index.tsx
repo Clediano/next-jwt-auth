@@ -1,8 +1,10 @@
-import { AuthContext } from "@/context/AuthContext";
 import { FormEvent, useContext, useState } from "react";
+import { AuthContext } from "@/context/AuthContext";
+import { withSSRGuest } from "@/utils/withSSRGuest";
+import { GetServerSidePropsContext } from "next";
 
 export default function Home() {
-  const { isAuthenticated, signIn } = useContext(AuthContext);
+  const { signIn } = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,3 +38,9 @@ export default function Home() {
     </div>
   );
 }
+
+export const getServerSideProps = withSSRGuest(async (ctx: GetServerSidePropsContext) => {
+  return {
+    props: {}
+  }
+});
